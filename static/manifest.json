@@ -1,0 +1,9 @@
+{
+  "name" : "Token Anonymizer",
+  "version" : "0.0.1",
+  "description" : "Lock tokens so they can't be clicked or interacted with by players",
+  "manifest_version" : 1,
+  "background_url" : "/background.html",
+  "icon" : "/icon.svg",
+  "homepage_url" : "https://github.com/davidsev/owlbear-token-anonymizer"
+}
