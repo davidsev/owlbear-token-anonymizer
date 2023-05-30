@@ -12,12 +12,10 @@ export async function hideItem (originalItem: Item) {
         .disableHit(true)
         .locked(true)
         .layer('MAP')
-        .attachedTo(originalItem.id)
         .position(originalItem.position)
         .zIndex(originalItem.zIndex - 100)
         .build();
     setFakeItemMetadata(fakeToken, { originalTokenId: originalItem.id });
-    await OBR.scene.items.addItems([fakeToken]);
 
     // Hide the original and set the metadata.
     await OBR.scene.items.updateItems([originalItem], (items) => {
@@ -26,6 +24,9 @@ export async function hideItem (originalItem: Item) {
             setOriginalItemMetadata(originalItem, { hidden: true, fakeTokenId: fakeToken.id });
         }
     });
+
+    // Add the fake token.  Needs to happen after the original token has it's metadata set, otherwise we'll remove it in the onChange handler.
+    await OBR.scene.items.addItems([fakeToken]);
 }
 
 export async function showItem (originalItem: Item) {
