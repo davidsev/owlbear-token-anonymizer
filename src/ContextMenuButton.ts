@@ -7,6 +7,16 @@ export class ContextMenuButton implements ContextMenuItem {
     id = getId('context-menu');
 
     icons: ContextMenuIcon[] = [{
+        icon: '/disable.svg',
+        label: 'Unanonymize Token',
+        filter: {
+            roles: ['GM'],
+            every: [
+                { key: 'type', value: 'IMAGE' },
+                { key: ['metadata', getId('original-item'), 'hidden'], value: true },
+            ],
+        },
+    }, {
         icon: '/icon.svg',
         label: 'Anonymize Token',
         filter: {
