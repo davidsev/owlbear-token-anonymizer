@@ -1,4 +1,4 @@
-# AoE Shapes
+# Token Anonymizer
 
 An [Owlbear Rodeo](https://www.owlbear.app/) extension to lock tokens to players can't see the name or even that it's a
 token.
@@ -11,5 +11,6 @@ token.
 
 ## Usage
 
-There's a new "Anonymize" button in the token toolbar. Click it to toggle anonymization on and off. \
+See [store.md](static/store.md) for usage instructions.
+
 
