@@ -32,7 +32,6 @@ export function initBackground () {
                     // Check if the original is deleted.
                     if (!hiddenTokens.has(getFakeItemMetadata(fakeToken).originalTokenId!)) {
                         OBR.scene.items.deleteItems([fakeToken.id]);
-                        console.log('Deleted fake token for deleted original token.');
                     }
 
                     // Update the position.
