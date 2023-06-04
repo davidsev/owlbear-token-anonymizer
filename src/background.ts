@@ -37,7 +37,7 @@ export function initBackground () {
 
                     // Update the position.
                     const originalToken = hiddenTokens.get(getFakeItemMetadata(fakeToken).originalTokenId!);
-                    if (originalToken) {
+                    if (originalToken && (originalToken.position.x != fakeToken.position.y || originalToken.position.y != fakeToken.position.y || originalToken.scale != fakeToken.scale || originalToken.rotation != fakeToken.rotation)) {
                         fakeToken.position = originalToken.position;
                         fakeToken.rotation = originalToken.rotation;
                         fakeToken.scale = originalToken.scale;
