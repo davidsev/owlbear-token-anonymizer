@@ -26,23 +26,33 @@ export function initBackground () {
                     showItem(hiddenToken);
             }
 
-            // For the fake tokens, remove them if the original is deleted, otherwise fix the position.
-            OBR.scene.items.updateItems([...fakeTokens.values()], (items) => {
-                for (const fakeToken of items) {
-                    // Check if the original is deleted.
-                    if (!hiddenTokens.has(getFakeItemMetadata(fakeToken).originalTokenId!)) {
-                        OBR.scene.items.deleteItems([fakeToken.id]);
-                    }
-
-                    // Update the position.
-                    const originalToken = hiddenTokens.get(getFakeItemMetadata(fakeToken).originalTokenId!);
-                    if (originalToken && (originalToken.position.x != fakeToken.position.y || originalToken.position.y != fakeToken.position.y || originalToken.scale != fakeToken.scale || originalToken.rotation != fakeToken.rotation)) {
-                        fakeToken.position = originalToken.position;
-                        fakeToken.rotation = originalToken.rotation;
-                        fakeToken.scale = originalToken.scale;
-                    }
+            // Find any fake tokens where the original is deleted or moved.
+            const fakeTokensToMove: Item[] = [];
+            for (const fakeToken of fakeTokens.values()) {
+                // Check if the original is deleted.
+                if (!hiddenTokens.has(getFakeItemMetadata(fakeToken).originalTokenId!)) {
+                    OBR.scene.items.deleteItems([fakeToken.id]);
                 }
-            });
+
+                const originalToken = hiddenTokens.get(getFakeItemMetadata(fakeToken).originalTokenId!);
+                if (originalToken && (originalToken.position.x != fakeToken.position.x || originalToken.position.y != fakeToken.position.y || originalToken.scale.x != fakeToken.scale.x || originalToken.scale.y != fakeToken.scale.y || originalToken.rotation != fakeToken.rotation)) {
+                    fakeTokensToMove.push(fakeToken);
+                }
+            }
+
+            // Update the position of the fake tokens.
+            if (fakeTokensToMove.length > 0)
+                OBR.scene.items.updateItems(fakeTokensToMove, (items) => {
+                    for (const fakeToken of items) {
+                        // Update the position.
+                        const originalToken = hiddenTokens.get(getFakeItemMetadata(fakeToken).originalTokenId!);
+                        if (originalToken) {
+                            fakeToken.position = originalToken.position;
+                            fakeToken.rotation = originalToken.rotation;
+                            fakeToken.scale = originalToken.scale;
+                        }
+                    }
+                });
         });
     });
 }
