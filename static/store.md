@@ -16,7 +16,7 @@ This locks tokens to players can't see the name or even that it's a token. \
 The intended use is for things like statues that are going to come to life or chests that are mimics. If the players can
 see it's a token then it's hard to avoid inadvertent metagaming.
 
-This can also be used for fake walls over secret doors.
+This can also be used for fake walls over secret doors or if you just want to hide the name of a token from the players.
 
 ### Usage
 
@@ -27,4 +27,4 @@ the background.
 ### Other
 
 - The code is on [GitHub](https://github.com/davidsev/owlbear-aoe)
-- You can post issues there, and stuck questions / feature requests in the discussion there.
+- You can post issues there, and stick questions / feature requests in the discussion there.
