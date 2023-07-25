@@ -25,6 +25,16 @@ export async function hideItem (originalItem: Item) {
         }
     });
 
+    // Hide any attached items.
+    const attachments = await OBR.scene.items.getItemAttachments([originalItem.id]);
+    if (attachments.length) {
+        await OBR.scene.items.updateItems(attachments, (items) => {
+            for (const item of items) {
+                item.visible = false;
+            }
+        });
+    }
+
     // Add the fake token.  Needs to happen after the original token has it's metadata set, otherwise we'll remove it in the onChange handler.
     await OBR.scene.items.addItems([fakeToken]);
 }
@@ -47,4 +57,14 @@ export async function showItem (originalItem: Item) {
             setOriginalItemMetadata(originalItem, { hidden: false, fakeTokenId: null });
         }
     });
+
+    // Show any attached items.
+    const attachments = await OBR.scene.items.getItemAttachments([originalItem.id]);
+    if (attachments.length) {
+        await OBR.scene.items.updateItems(attachments, (items) => {
+            for (const item of items) {
+                item.visible = true;
+            }
+        });
+    }
 }
