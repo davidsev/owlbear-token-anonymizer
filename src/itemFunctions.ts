@@ -30,7 +30,8 @@ export async function hideItem (originalItem: Item) {
     if (attachments.length) {
         await OBR.scene.items.updateItems(attachments, (items) => {
             for (const item of items) {
-                item.visible = false;
+                if (!item.disableAttachmentBehavior?.includes('VISIBLE'))
+                    item.visible = false;
             }
         });
     }
@@ -63,7 +64,8 @@ export async function showItem (originalItem: Item) {
     if (attachments.length) {
         await OBR.scene.items.updateItems(attachments, (items) => {
             for (const item of items) {
-                item.visible = true;
+                if (!item.disableAttachmentBehavior?.includes('VISIBLE'))
+                    item.visible = true;
             }
         });
     }
