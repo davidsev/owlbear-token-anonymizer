@@ -1,6 +1,6 @@
 import { fakeItemMetadata, originalItemMetadata } from './Metadata';
 import OBR, { buildImage, ImageContent, ImageGrid, Item } from '@owlbear-rodeo/sdk';
-import { hideItemAttachments, showItemAttachments } from '../../owlbear-utils/js/Item';
+import { hideItemAttachments, showItemAttachments } from '@davidsev/owlbear-utils/js/Item';
 
 export async function hideItem (originalItem: Item) {
     const metadata = originalItemMetadata.get(originalItem);

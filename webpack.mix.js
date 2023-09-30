@@ -17,4 +17,9 @@ mix.ts('src/index.ts', 'dist/app.js')
             extractComments: false,
         },
         clearConsole: false,
+    })
+    .webpackConfig({
+        resolve: {
+            fallback: { 'buffer': false }
+        }
     });
