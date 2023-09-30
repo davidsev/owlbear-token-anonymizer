@@ -1,6 +1,6 @@
 import OBR, { Item } from '@owlbear-rodeo/sdk';
 import { ContextMenuButton } from './ContextMenuButton';
-import { getFakeItemMetadata, getOriginalItemMetadata } from './Metadata';
+import { fakeItemMetadata, originalItemMetadata } from './Metadata';
 import { showItem } from './itemFunctions';
 
 export function initBackground () {
@@ -14,9 +14,9 @@ export function initBackground () {
             const hiddenTokens: Map<string, Item> = new Map();
             const fakeTokens: Map<string, Item> = new Map();
             for (const item of items) {
-                if (getOriginalItemMetadata(item).hidden)
+                if (originalItemMetadata.get(item).hidden)
                     hiddenTokens.set(item.id, item);
-                if (getFakeItemMetadata(item).originalTokenId)
+                if (fakeItemMetadata.get(item).originalTokenId)
                     fakeTokens.set(item.id, item);
             }
 
@@ -30,11 +30,11 @@ export function initBackground () {
             const fakeTokensToMove: Item[] = [];
             for (const fakeToken of fakeTokens.values()) {
                 // Check if the original is deleted.
-                if (!hiddenTokens.has(getFakeItemMetadata(fakeToken).originalTokenId!)) {
+                if (!hiddenTokens.has(fakeItemMetadata.get(fakeToken).originalTokenId!)) {
                     OBR.scene.items.deleteItems([fakeToken.id]);
                 }
 
-                const originalToken = hiddenTokens.get(getFakeItemMetadata(fakeToken).originalTokenId!);
+                const originalToken = hiddenTokens.get(fakeItemMetadata.get(fakeToken).originalTokenId!);
                 if (originalToken && (originalToken.position.x != fakeToken.position.x || originalToken.position.y != fakeToken.position.y || originalToken.scale.x != fakeToken.scale.x || originalToken.scale.y != fakeToken.scale.y || originalToken.rotation != fakeToken.rotation)) {
                     fakeTokensToMove.push(fakeToken);
                 }
@@ -45,7 +45,7 @@ export function initBackground () {
                 OBR.scene.items.updateItems(fakeTokensToMove, (items) => {
                     for (const fakeToken of items) {
                         // Update the position.
-                        const originalToken = hiddenTokens.get(getFakeItemMetadata(fakeToken).originalTokenId!);
+                        const originalToken = hiddenTokens.get(fakeItemMetadata.get(fakeToken).originalTokenId!);
                         if (originalToken) {
                             fakeToken.position = originalToken.position;
                             fakeToken.rotation = originalToken.rotation;

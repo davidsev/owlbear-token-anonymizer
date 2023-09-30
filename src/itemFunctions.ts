@@ -1,8 +1,8 @@
-import { getOriginalItemMetadata, setFakeItemMetadata, setOriginalItemMetadata } from './Metadata';
+import { fakeItemMetadata, originalItemMetadata } from './Metadata';
 import OBR, { buildImage, ImageContent, ImageGrid, Item } from '@owlbear-rodeo/sdk';
 
 export async function hideItem (originalItem: Item) {
-    const metadata = getOriginalItemMetadata(originalItem);
+    const metadata = originalItemMetadata.get(originalItem);
     const currentlyHidden = metadata.hidden;
     if (currentlyHidden)
         return;
@@ -15,13 +15,13 @@ export async function hideItem (originalItem: Item) {
         .position(originalItem.position)
         .zIndex(originalItem.zIndex - 100)
         .build();
-    setFakeItemMetadata(fakeToken, { originalTokenId: originalItem.id });
+    fakeItemMetadata.set(fakeToken, { originalTokenId: originalItem.id });
 
     // Hide the original and set the metadata.
     await OBR.scene.items.updateItems([originalItem], (items) => {
         for (const originalItem of items) {
             originalItem.visible = false;
-            setOriginalItemMetadata(originalItem, { hidden: true, fakeTokenId: fakeToken.id });
+            originalItemMetadata.set(originalItem, { hidden: true, fakeTokenId: fakeToken.id });
         }
     });
 
@@ -41,7 +41,7 @@ export async function hideItem (originalItem: Item) {
 }
 
 export async function showItem (originalItem: Item) {
-    const metadata = getOriginalItemMetadata(originalItem);
+    const metadata = originalItemMetadata.get(originalItem);
     const currentlyHidden = metadata.hidden;
     if (!currentlyHidden)
         return;
@@ -55,7 +55,7 @@ export async function showItem (originalItem: Item) {
     await OBR.scene.items.updateItems([originalItem], (items) => {
         for (const originalItem of items) {
             originalItem.visible = true;
-            setOriginalItemMetadata(originalItem, { hidden: false, fakeTokenId: null });
+            originalItemMetadata.set(originalItem, { hidden: false, fakeTokenId: null });
         }
     });
 

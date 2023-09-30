@@ -1,6 +1,6 @@
 import { ContextMenuContext, ContextMenuIcon, ContextMenuItem } from '@owlbear-rodeo/sdk';
 import getId from './getId';
-import { getOriginalItemMetadata } from './Metadata';
+import { originalItemMetadata } from './Metadata';
 import { hideItem, showItem } from './itemFunctions';
 
 export class ContextMenuButton implements ContextMenuItem {
@@ -29,7 +29,7 @@ export class ContextMenuButton implements ContextMenuItem {
 
     onClick (context: ContextMenuContext, elementId: string): void {
         // See if we are showing or hiding.  If any are currently visible, then hide them all.
-        const hide = context.items.some((item) => !getOriginalItemMetadata(item).hidden);
+        const hide = context.items.some((item) => !originalItemMetadata.get(item).hidden);
 
         // Show or hide them all.
         for (const item of context.items) {
