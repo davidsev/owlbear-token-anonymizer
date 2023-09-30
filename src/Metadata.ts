@@ -1,16 +1,6 @@
-import { Item, Metadata } from '@owlbear-rodeo/sdk';
+import { Item } from '@owlbear-rodeo/sdk';
 import { ItemMetadataMapper } from '@davidsev/owlbear-utils';
 import getId from './getId';
-
-// Merge a metadata object with default values into the correct type.
-function cleanMetadata<T extends Metadata> (metadata: Metadata, defaultValues: T): T {
-    // If the metadata is missing any keys, fill them in with the defaults.
-    for (const key in defaultValues)
-        if (metadata[key] === undefined || metadata[key] === null)
-            metadata[key] = defaultValues[key];
-
-    return metadata as T;
-}
 
 //
 // Item Metadata for the original item.
