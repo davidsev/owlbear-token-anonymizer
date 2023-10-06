@@ -1,4 +1,3 @@
-import { Item } from '@owlbear-rodeo/sdk';
 import { ItemMetadataMapper } from '@davidsev/owlbear-utils';
 import getId from './getId';
 
@@ -16,10 +15,6 @@ export const originalItemMetadata = new ItemMetadataMapper(getId('original-item'
 //
 // Item Metadata for the fake item.
 //
-
-export function getFakeItemMetadata (item: Item): FakeItemMetadata {
-    return fakeItemMetadata.get(item);
-}
 
 export class FakeItemMetadata {
     originalTokenId: string | null = null;
