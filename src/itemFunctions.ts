@@ -1,6 +1,5 @@
 import { fakeItemMetadata, originalItemMetadata } from './Metadata';
 import OBR, { buildImage, ImageContent, ImageGrid, Item } from '@owlbear-rodeo/sdk';
-import { hideItemAttachments, showItemAttachments } from '@davidsev/owlbear-utils/js/Item';
 
 export async function hideItem (originalItem: Item) {
     const metadata = originalItemMetadata.get(originalItem);
@@ -26,9 +25,6 @@ export async function hideItem (originalItem: Item) {
         }
     });
 
-    // Hide any attached items.
-    await hideItemAttachments(originalItem);
-
     // Add the fake token.  Needs to happen after the original token has it's metadata set, otherwise we'll remove it in the onChange handler.
     await OBR.scene.items.addItems([fakeToken]);
 }
@@ -51,7 +47,4 @@ export async function showItem (originalItem: Item) {
             originalItemMetadata.set(originalItem, { hidden: false, fakeTokenId: null });
         }
     });
-
-    // Show any attached items.
-    await showItemAttachments(originalItem);
 }
