@@ -23,7 +23,7 @@ export function initBackground () {
             // For the hidden tokens, remove the fake if they have been un-hidden.
             for (const hiddenToken of hiddenTokens.values()) {
                 if (hiddenToken.visible)
-                    showItem(hiddenToken);
+                    showItem([hiddenToken]);
             }
 
             // Find any fake tokens where the original is deleted or moved.

@@ -32,11 +32,9 @@ export class ContextMenuButton implements ContextMenuItem {
         const hide = context.items.some((item) => !originalItemMetadata.get(item).hidden);
 
         // Show or hide them all.
-        for (const item of context.items) {
-            if (hide)
-                hideItem(item);
-            else
-                showItem(item);
-        }
+        if (hide)
+            hideItem(context.items);
+        else
+            showItem(context.items);
     }
 }
