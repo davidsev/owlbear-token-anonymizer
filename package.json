@@ -17,8 +17,8 @@
     "typescript": "^5.0.4"
   },
   "dependencies": {
-    "@davidsev/owlbear-utils": "^0.13.0",
-    "@owlbear-rodeo/sdk": "^2.0.0",
+    "@davidsev/owlbear-utils": "^0.28.0",
+    "@owlbear-rodeo/sdk": "^3.1.0",
     "vanilla-colorful": "^0.7.2"
   }
 }
