@@ -17,6 +17,7 @@ export async function hideItem (originalItems: Item[]) {
         const fakeToken = buildImage(originalItem.image as ImageContent, originalItem.grid as ImageGrid)
             .disableHit(true)
             .locked(true)
+            .name('Anonymized ' + (originalItem.name || 'Token'))
             .layer('MAP')
             .position(originalItem.position)
             .zIndex(originalItem.zIndex - 100)
