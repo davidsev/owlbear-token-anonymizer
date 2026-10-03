@@ -1,24 +1,29 @@
 {
   "version": "0.0.1",
+  "private": true,
   "scripts": {
-    "dev": "mix",
-    "watch": "mix watch",
-    "prod": "mix --production",
-    "serve": "http-server ./dist -p 8082 --cors -c-1 "
+    "serve": "URL_PREFIX=http://localhost:8082 webpack-dev-server --config-node-env=development --port 8082 --hot",
+    "build": "webpack --config-node-env=production",
+    "typecheck": "tsc --noEmit"
   },
   "keywords": [],
   "author": "",
   "license": "GPL-3.0-or-later",
   "description": "",
+  "engines": {
+    "node": ">=24"
+  },
   "devDependencies": {
-    "http-server": "^14.1.1",
-    "laravel-mix": "^6.0.49",
+    "copy-webpack-plugin": "^14.0.0",
+    "html-webpack-plugin": "^5.6.8",
     "ts-loader": "^9.4.2",
-    "typescript": "^5.0.4"
+    "typescript": "^5.0.4",
+    "webpack": "^5.111.1",
+    "webpack-cli": "^7.2.3",
+    "webpack-dev-server": "^6.0.0"
   },
   "dependencies": {
-    "@davidsev/owlbear-utils": "^0.28.0",
-    "@owlbear-rodeo/sdk": "^3.1.0",
-    "vanilla-colorful": "^0.7.2"
+    "@davidsev/owlbear-utils": "^2.4.0",
+    "@owlbear-rodeo/sdk": "^3.1.0"
   }
 }

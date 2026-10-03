@@ -7,7 +7,7 @@ export class ContextMenuButton implements ContextMenuItem {
     id = getId('context-menu');
 
     icons: ContextMenuIcon[] = [{
-        icon: '/disable.svg',
+        icon: `${URL_PREFIX}/disable.svg`,
         label: 'Unanonymize Token',
         filter: {
             roles: ['GM'],
@@ -17,7 +17,7 @@ export class ContextMenuButton implements ContextMenuItem {
             ],
         },
     }, {
-        icon: '/icon.svg',
+        icon: `${URL_PREFIX}/icon.svg`,
         label: 'Anonymize Token',
         filter: {
             roles: ['GM'],
@@ -27,7 +27,7 @@ export class ContextMenuButton implements ContextMenuItem {
         },
     }];
 
-    onClick (context: ContextMenuContext, elementId: string): void {
+    onClick (context: ContextMenuContext): void {
         // See if we are showing or hiding.  If any are currently visible, then hide them all.
         const hide = context.items.some((item) => !originalItemMetadata.get(item).hidden);
 
