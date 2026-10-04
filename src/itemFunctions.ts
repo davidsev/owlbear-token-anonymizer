@@ -1,25 +1,24 @@
 import { fakeItemMetadata, originalItemMetadata } from './Metadata';
-import OBR, { buildImage, Image, ImageContent, ImageGrid, isImage, Item } from '@owlbear-rodeo/sdk';
+import OBR, { buildImage, Image, isImage, Item } from '@owlbear-rodeo/sdk';
+
+async function getTargetImages (originalItems: Item[], state: { hidden: boolean }): Promise<Image[]> {
+    if (!originalItems.length)
+        return [];
+
+    const allItems = await OBR.scene.items.getItemAttachments(originalItems.map(item => item.id));
+    return allItems
+        .filter(isImage)
+        .filter(item => originalItemMetadata.get(item).hidden === state.hidden);
+}
 
 export async function hideItem (originalItems: Item[]) {
 
-    // Load all the attachments.  getItemAttachments also loads the original items.
-    const allItems = await OBR.scene.items.getItemAttachments(originalItems.map(item => item.id));
-
-    // Filter out the items that are already hidden and anything that's not an image.
-    const itemsToHide = allItems.filter((item) => !originalItemMetadata.get(item).hidden && isImage(item));
-
-    // Bail if there's nothing left
-    if (itemsToHide.length === 0)
-        return;
+    const itemsToHide = await getTargetImages(originalItems, { hidden: false });
 
     // Make the fake tokens.
     const fakeTokens = new Map<string, Image>();
     for (const originalItem of itemsToHide) {
-        if (!isImage(originalItem))
-            continue;
-
-        const fakeToken = buildImage(originalItem.image as ImageContent, originalItem.grid as ImageGrid)
+        const fakeToken = buildImage(originalItem.image, originalItem.grid)
             .disableHit(true)
             .locked(true)
             .name('Anonymized ' + (originalItem.name || 'Token'))
@@ -48,15 +47,7 @@ export async function hideItem (originalItems: Item[]) {
 
 export async function showItem (originalItems: Item[]) {
 
-    // Load all the attachments.  getItemAttachments also loads the original items.
-    const allItems = await OBR.scene.items.getItemAttachments(originalItems.map(item => item.id));
-
-    // Filter out the items that aren't hidden and anything that's not an image.
-    const itemsToShow = allItems.filter((item) => originalItemMetadata.get(item).hidden && isImage(item));
-
-    // Bail if there's nothing left
-    if (itemsToShow.length === 0)
-        return;
+    const itemsToShow = await getTargetImages(originalItems, { hidden: true });
 
     // Find the fake token IDs.
     const fakeTokenIds = itemsToShow.map(originalItem => {
